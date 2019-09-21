@@ -3,6 +3,8 @@ import json
 import queue
 
 # 待处理数据队列
+from utils.csv_util import store_data, eeg_file_path
+
 data_handle_queue = queue.Queue()
 
 # 手势信号
@@ -32,6 +34,11 @@ def message_handle(message):
         if receive_data["client"] == 1:
             print("接收到脑电信号：\n")
             print(receive_data["data"])
+            data = json.loads(receive_data["data"])
+
+            # 数据暂存，正式运行去掉，影响性能
+            store_data(data, eeg_file_path, 1)
+
             # todo  信号处理，并存入一个信号处理单元
             data_eeg.append(receive_data["data"])
 
