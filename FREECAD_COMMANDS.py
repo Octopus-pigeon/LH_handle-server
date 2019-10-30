@@ -168,6 +168,7 @@ def move_object(object_lable,viewface,vector):
     return x,y,z,D_lable
 
 #旋转对象
+#可以记录各轴的旋转量
 def rotate_object(object_lable,viewface,angel):
     global D_face,D_angel,r_x, r_y, r_z
     if D_face != viewface:
