@@ -1,5 +1,7 @@
+#coding= utf-8
 # pip install websocket-server
 from websocket_server import WebsocketServer
+
 
 
 # 当新的客户端连接时会提示
@@ -8,6 +10,7 @@ from utils.csv_util import init_file
 
 def new_client(client, server):
     print("当新的客户端连接时会提示:%s" % client['id'])
+
     # server.send_message_to_all("Hey all, a new client has joined us")
 
 

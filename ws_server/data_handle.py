@@ -5,6 +5,9 @@ import queue
 # 待处理数据队列
 from utils.csv_util import store_data, eeg_file_path
 
+import sys
+import FREECAD_COMMANDS as f_com
+
 data_handle_queue = queue.Queue()
 
 # 手势信号
@@ -17,6 +20,7 @@ data_eeg = []
 data_unit = [data_eeg, data_eye, data_gesture]
 
 
+L_number = [0]
 def message_handle(message):
     """
     处理接收到客户端的数据，数据格式
@@ -26,6 +30,7 @@ def message_handle(message):
     手势：3
     :param message:
     """
+
     receive_data = json.loads(message)
     if type(receive_data) is not dict:
         print("接收数据错误: " + str(receive_data) + "--" + str(datetime.datetime.now()))
@@ -52,6 +57,29 @@ def message_handle(message):
             print(receive_data["data"])
             # todo  信号处理，并存入一个信号处理单元
             data_gesture.append(receive_data["data"])
+            leap_data=receive_data["data"]
+            print(leap_data['id'])
+            if leap_data["G"]=="True" and leap_data["G_lable"]=="Sphere"  :
+                f_com.make_sphere()
+            elif leap_data["G"]=="True" and leap_data["G_lable"]=="Box"  :
+                f_com.make_cube()
+            elif leap_data["G"]=="True" and leap_data["G_lable"]=="Cone"  :
+                f_com.make_cone()
+            else:
+                " "
+            if leap_data["Control"]!=" ":
+                if leap_data["Control"]=="move":
+                    f_com.change_viewface(viewface=leap_data["Viewface"])
+                    f_com.move_object(leap_data["G_lable"],leap_data["Viewface"],leap_data["Vector"])
+                if leap_data["Control"]=="zoom":
+                    f_com.zoom_object(leap_data["G_lable"],leap_data["Scale"])
+                if leap_data["Control"]=="rotate":
+                    f_com.change_viewface(viewface=leap_data["Viewface"])
+                    f_com.rotate_object(leap_data["G_lable"], leap_data["Viewface"], leap_data["Angel"])
+
+                if leap_data["Control"]=="delete":
+                    f_com.delete_object(leap_data["G_lable"])
+
     except  Exception as e:
         print(e)
         return
