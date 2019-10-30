@@ -175,26 +175,26 @@ def rotate_object(object_lable,viewface,angel):
     if viewface == 'Front':
         print('front')
         D_angel = D_angel + angel * 10
-        r_x = 0
-        r_y = 1
-        r_z = 0
+        # r_x = 0
+        r_y = abs(1*math.cos(D_angel))
+        # r_z = 0
     elif viewface == 'Left':
         print('left')
         D_angel = D_angel - angel * 10
-        r_x = 1
-        r_y = 0
-        r_z = 0
+        r_x = abs(1*math.cos(D_angel))
+        # r_y = 0
+        # r_z = 0
     elif viewface == 'Top':
         print('top')
         D_angel = D_angel + angel * 10
-        r_x = 0
-        r_y = 0
-        r_z = 1
+        # r_x = 0
+        # r_y = 0
+        r_z = abs(1*math.cos(D_angel))
     elif viewface == 'Axonometric':
         print('ax')
-        r_x = 0
-        r_y = 0
-        r_z = 0
+        # r_x = 0
+        # r_y = 0
+        # r_z = 0
         D_angel = D_angel - angel * 10
     App.getDocument("Unnamed").getObject(object_lable).Placement = App.Placement(App.Vector(n_x, n_y, n_z),
                                                       App.Rotation(App.Vector(r_x, r_y, r_z), D_angel))
