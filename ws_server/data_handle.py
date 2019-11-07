@@ -6,7 +6,7 @@ import queue
 from utils.csv_util import store_data, eeg_file_path
 
 import sys
-import FREECAD_COMMANDS as f_com
+import LH118_FREECAD_COMMANDS as f_com
 
 data_handle_queue = queue.Queue()
 
@@ -54,11 +54,11 @@ def message_handle(message):
             data_eye.append(receive_data["data"])
         elif receive_data["client"] == 3:
             print("接收到手势信号：\n")
-            print(receive_data["data"])
+            # print(receive_data["data"])
             # todo  信号处理，并存入一个信号处理单元
             data_gesture.append(receive_data["data"])
             leap_data=receive_data["data"]
-            print(leap_data['id'])
+            # print(leap_data['id'])
             if leap_data["G"]=="True" and leap_data["G_lable"]=="Sphere"  :
                 f_com.make_sphere()
             elif leap_data["G"]=="True" and leap_data["G_lable"]=="Box"  :
@@ -68,15 +68,16 @@ def message_handle(message):
             else:
                 " "
             if leap_data["Control"]!=" ":
-                if leap_data["Control"]=="move":
+                if leap_data["Control"] == "change_viewface":
                     f_com.change_viewface(viewface=leap_data["Viewface"])
+                if leap_data["Control"]=="move":
                     f_com.move_object(leap_data["G_lable"],leap_data["Viewface"],leap_data["Vector"])
                 if leap_data["Control"]=="zoom":
                     f_com.zoom_object(leap_data["G_lable"],leap_data["Scale"])
                 if leap_data["Control"]=="rotate":
-                    f_com.change_viewface(viewface=leap_data["Viewface"])
-                    f_com.rotate_object(leap_data["G_lable"], leap_data["Viewface"], leap_data["Angel"])
-
+                    # f_com.change_viewface(viewface=leap_data["Viewface"])
+                    # f_com.rotate_object(leap_data["G_lable"], leap_data["Viewface"], leap_data["Angel"])
+                    f_com.rotate_object(leap_data["G_lable"], leap_data["Viewface"],leap_data["Vector"])
                 if leap_data["Control"]=="delete":
                     f_com.delete_object(leap_data["G_lable"])
 

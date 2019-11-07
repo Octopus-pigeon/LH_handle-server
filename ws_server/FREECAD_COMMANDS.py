@@ -37,6 +37,7 @@ D_lable=" "
 viewface=" "
 D_face=" "
 D_angel=0
+special_points=[]
 def make_line(p1,p2):
     object=Part.makeLine(p1,p2)
     Part.show(object)
@@ -175,14 +176,14 @@ def rotate_object(object_lable,viewface,angel):
         D_angel = 0
     if viewface == 'Front':
         print('front')
-        D_angel = D_angel + angel * 10
+        D_angel = D_angel - angel * 10
         # r_x = 0
-        r_y = abs(1*math.cos(D_angel))
+        r_y = 1
         # r_z = 0
     elif viewface == 'Left':
         print('left')
         D_angel = D_angel - angel * 10
-        r_x = abs(1*math.cos(D_angel))
+        r_x = 1
         # r_y = 0
         # r_z = 0
     elif viewface == 'Top':
@@ -190,7 +191,7 @@ def rotate_object(object_lable,viewface,angel):
         D_angel = D_angel + angel * 10
         # r_x = 0
         # r_y = 0
-        r_z = abs(1*math.cos(D_angel))
+        r_z = 1
     elif viewface == 'Axonometric':
         print('ax')
         # r_x = 0
@@ -271,8 +272,15 @@ def change_viewface(viewface):
 
     return  D_face
 
+def keep_points(object_lable):
+    if object_lable=='Box':
+        special_points.append((n_x, n_y, n_z))
+    elif object_lable==' ':
+        special_points.append()
 
-#
+
+
+
 # make_cube()
 # make_sphere()
 # change_viewface(viewface='Axonometric')
